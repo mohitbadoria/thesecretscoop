@@ -3,133 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Secret Scoop | 100% Sugar-Free Shakes</title>
+    <title>The Secret Scoop | Smart Shakes Ashok Vihar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --main: #2d1b15; --accent: #43A047; --bg: #faf9f6; --white: #ffffff; }
-        * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--main); }
+        :root { --dark: #2d1b15; --accent: #43A047; --cream: #faf9f6; --white: #ffffff; }
+        * { box-sizing: border-box; scroll-behavior: smooth; transition: 0.3s; }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; background: var(--cream); color: var(--dark); }
         
-        /* Navigation Bar */
-        nav { background: var(--white); display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
-        .logo { font-size: 1.5rem; font-weight: 900; color: var(--main); text-decoration: none; letter-spacing: -1px; }
-        .nav-links a { text-decoration: none; color: var(--main); margin-left: 25px; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
-        .nav-links a:hover { color: var(--accent); }
+        /* Nav */
+        nav { background: var(--white); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: bold; color: var(--dark); text-decoration: none; }
+        .cart-trigger { cursor: pointer; color: var(--accent); font-weight: bold; position: relative; border: 2px solid var(--accent); padding: 8px 18px; border-radius: 50px; }
+        .badge { background: #ff4444; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px; position: absolute; top: -10px; right: -10px; }
 
-        /* Hero Section */
-        .hero { height: 75vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 20px; }
-        .hero h1 { font-size: 3.5rem; margin: 0; }
-        .hero p { font-size: 1.2rem; margin: 15px 0 30px; max-width: 600px; }
+        /* Hero */
+        .hero { height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=1200'); background-size: cover; color: white; padding: 20px; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; }
 
-        /* Product Section */
-        .container { max-width: 1200px; margin: auto; padding: 60px 20px; }
-        .section-header { text-align: center; margin-bottom: 50px; }
-        .section-header h2 { font-size: 2.5rem; margin: 0; }
-        .section-header p { color: #666; margin-top: 10px; }
+        /* Shop Grid */
+        .container { max-width: 1100px; margin: auto; padding: 40px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); position: relative; }
+        .card img { width: 100%; height: 230px; object-fit: cover; }
+        .card-body { padding: 20px; text-align: center; }
+        .price { font-size: 1.5rem; font-weight: bold; color: var(--accent); margin: 10px 0; }
+        .crunch-tag { font-size: 0.7rem; background: #e8f5e9; color: var(--accent); padding: 4px 10px; border-radius: 50px; font-weight: bold; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 35px; }
-        .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.4s; position: relative; }
-        .card:hover { transform: translateY(-10px); }
-        .card img { width: 100%; height: 300px; object-fit: cover; }
-        .badge { position: absolute; top: 20px; left: 20px; background: var(--accent); color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: bold; }
+        /* Sidebar Cart */
+        #cart-sidebar { position: fixed; right: -420px; top: 0; width: 400px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); z-index: 2000; padding: 25px; overflow-y: auto; }
+        #cart-sidebar.open { right: 0; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .qty-btn { background: #eee; border: none; padding: 5px 12px; cursor: pointer; border-radius: 5px; font-weight: bold; }
         
-        .content { padding: 25px; text-align: center; }
-        .content h3 { margin: 0 0 10px; font-size: 1.4rem; }
-        .price-tag { font-size: 1.8rem; font-weight: 800; color: var(--accent); margin: 10px 0 20px; }
-        
-        .btn { display: inline-block; background: var(--main); color: white; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: 0.3s; width: 100%; }
-        .btn:hover { background: var(--accent); }
+        /* Fees box */
+        .fees-box { background: #f9f9f9; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 0.9rem; }
+        .free-delivery-msg { color: var(--accent); font-weight: bold; font-size: 0.8rem; margin-top: 5px; }
 
-        /* FAQ Section */
-        .faq { background: #f0ede9; padding: 80px 20px; }
-        .faq-item { background: white; max-width: 700px; margin: 10px auto; padding: 20px; border-radius: 15px; cursor: pointer; }
-        .faq-item h4 { margin: 0; color: var(--main); }
-        .faq-item p { margin: 10px 0 0; color: #666; font-size: 0.9rem; }
+        .btn { background: var(--accent); color: white; padding: 15px; border-radius: 50px; border: none; cursor: pointer; width: 100%; font-weight: bold; font-size: 1rem; }
+        .btn:hover { background: var(--dark); }
 
-        footer { background: var(--main); color: #888; text-align: center; padding: 50px 20px; }
+        input, textarea { width: 100%; margin-top: 10px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+
+        footer { background: var(--dark); color: #777; padding: 30px; text-align: center; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <nav>
-    <a href="#" class="logo">THE SECRET SCOOP</a>
-    <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#shop">Shop</a>
-        <a href="#about">Story</a>
-        <a href="#faq">FAQ</a>
-    </div>
+    <a href="#" class="logo">SECRET SCOOP</a>
+    <div class="cart-trigger" onclick="toggleCart()">🛒 CART <span class="badge" id="count-badge">0</span></div>
 </nav>
 
-<section class="hero" id="home">
-    <div class="badge" style="position: static; margin-bottom: 20px;">NEW IN DELHI</div>
-    <h1>The Guilt-Free Thick Shake</h1>
-    <p>We replaced the sugar, kept the thick creamy texture. High protein, natural sweeteners, and strictly under ₹50.</p>
-    <a href="#shop" class="btn" style="width: auto; background: white; color: var(--main);">Order Now</a>
+<section class="hero">
+    <h1>The ₹49 Sugar-Free Revolution</h1>
+    <p>Hand-crafted in Ashok Vihar. Free DIY Crunch Kit with every order.</p>
 </section>
 
-<div class="container" id="shop">
-    <div class="section-header">
-        <h2>The 49/- Menu</h2>
-        <p>Flat pricing. Premium quality. Student-made.</p>
-    </div>
-    
+<div class="container">
     <div class="grid">
         <div class="card">
-            <div class="badge">BESTSELLER</div>
-            <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80" alt="Chocolate">
-            <div class="content">
+            <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400" alt="Choco">
+            <div class="card-body">
                 <h3>Midnight Cocoa</h3>
-                <p>Pure Belgian dark chocolate with stevia. Zero sugar.</p>
-                <div class="price-tag">₹49</div>
-                <a href="https://wa.me/919307811421?text=Order: Midnight Cocoa" class="btn">Add to Cart</a>
+                <span class="crunch-tag">+ FREE Choco Sprinkles</span>
+                <div class="price">₹49</div>
+                <button class="btn" onclick="addToCart('Midnight Cocoa', 49)">Add to Cart</button>
             </div>
         </div>
-
         <div class="card">
-            <img src="https://bing.com/th?id=OSK.23517b06c972bb1d88f91d96c4b6702e" alt="Coffee">
-            <div class="content">
-                <h3>Nitro Cold Coffee</h3>
-                <p>Triple-roasted Arabica blend. Creamy & caffeine-rich.</p>
-                <div class="price-tag">₹49</div>
-                <a href="https://wa.me/919307811421?text=Order: Cold Coffee" class="btn">Add to Cart</a>
+            <img src="https://images.unsplash.com/photo-1541658016709-82535e94bc71?w=400" alt="Coffee">
+            <div class="card-body">
+                <h3>Coffee Crush</h3>
+                <span class="crunch-tag">+ FREE Cocoa Sachet</span>
+                <div class="price">₹49</div>
+                <button class="btn" onclick="addToCart('Coffee Crush', 49)">Add to Cart</button>
             </div>
         </div>
-
-        <div class="card">
-            <div class="badge">HEALTHY</div>
-            <img src="https://i.ytimg.com/vi/5kkLA5CTp_4/maxresdefault.jpg" alt="Badam">
-            <div class="content">
-                <h3>Royal Kesar Badam</h3>
-                <p>Saffron infused milk with crushed roasted almonds.</p>
-                <div class="price-tag">₹49</div>
-                <a href="https://wa.me/919307811421?text=Order: Kesar Badam" class="btn">Add to Cart</a>
+        <div class="card" style="border: 2px solid var(--accent);">
+            <div style="background:var(--accent); color:white; font-size:0.7rem; padding:4px; text-align:center;">BEST VALUE</div>
+            <img src="https://images.unsplash.com/photo-1585502866757-313934336c5b?w=400" alt="Trio">
+            <div class="card-body">
+                <h3>The Trio Pack</h3>
+                <p>All 3 flavors. Save ₹12!</p>
+                <div class="price">₹135</div>
+                <button class="btn" onclick="addToCart('Trio Pack', 135)">Add Trio to Cart</button>
             </div>
         </div>
     </div>
 </div>
 
-<section class="faq" id="faq">
-    <div class="section-header">
-        <h2>Questions?</h2>
+<div id="cart-sidebar">
+    <h2 style="font-family: 'Playfair Display', serif;">Your Cart</h2>
+    <div id="cart-list"></div>
+    
+    <div style="margin: 15px 0; font-size: 0.85rem;">
+        <input type="checkbox" id="protein" onchange="renderCart()"> <strong>Add Extra Protein?</strong> (+₹25 per bottle)
     </div>
-    <div class="faq-item">
-        <h4>Is it really sugar-free?</h4>
-        <p>Yes! We use a blend of Stevia and Erythritol, which are natural plant-based sweeteners that do not spike blood sugar.</p>
+
+    <div class="fees-box">
+        <div style="display:flex; justify-content:space-between"><span>Subtotal:</span><span id="subtotal">₹0</span></div>
+        <div style="display:flex; justify-content:space-between"><span>Delivery:</span><span id="del-fee">₹30</span></div>
+        <div id="free-msg" class="free-delivery-msg"></div>
+        <hr>
+        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.1rem;">
+            <span>Total:</span><span id="final-total">₹0</span>
+        </div>
     </div>
-    <div class="faq-item">
-        <h4>How long does it stay fresh?</h4>
-        <p>Our shakes are freshly made and should be consumed within 48 hours for the best taste. Always keep refrigerated.</p>
-    </div>
-    <div class="faq-item">
-        <h4>Where do you deliver?</h4>
-        <p>Currently, we deliver across Ashok Vihar (Phases 1, 2, and 3) and nearby North Delhi locations.</p>
-    </div>
-</section>
+
+    <form action="ADD_YOUR_FORMSPREE_URL_HERE" method="POST">
+        <input type="hidden" name="Order_Summary" id="form-summary">
+        <input type="hidden" name="Final_Price" id="form-total">
+        
+        <input type="text" name="Name" placeholder="Full Name" required>
+        <input type="tel" name="Phone" placeholder="WhatsApp Number" required>
+        <textarea name="Address" placeholder="Full Address (Ashok Vihar Only)" rows="3" required></textarea>
+        <button type="submit" class="btn" style="background:var(--dark); margin-top:15px;">Place Order (Cash on Delivery)</button>
+    </form>
+    <button onclick="toggleCart()" style="background:none; border:none; color:#999; margin-top:20px; cursor:pointer;">← Continue Shopping</button>
+</div>
 
 <footer>
-    <p>© 2026 Secret Scoop Delhi | ashok vihar, delhi</p>
-    <p style="font-size: 0.7rem; margin-top: 10px;">Managed by: Mohit Badoria | mohitbadoria16@gmail.com</p>
+    <p>© 2026 The Secret Scoop | ashok vihar, delhi</p>
+    <p>Student Founder: Mohit Badoria</p>
 </footer>
 
+<script>
+    let cart = {};
+    const DEL_LIMIT = 199;
+    const DEL_CHARGE = 30;
+
+    function addToCart(name, price) {
+        if(cart[name]) cart[name].qty++;
+        else cart[name] = { price, qty: 1 };
+        renderCart();
+        document.getElementById('cart-sidebar').classList.add('open');
+    }
+
+    function changeQty(name, d) {
+        cart[name].qty += d;
+        if(cart[name].qty <= 0) delete cart[name];
+        renderCart();
+    }
+
+    function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
+
+    function renderCart() {
+        const list = document.getElementById('cart-list');
+        const badge = document.getElementById('count-badge');
+        list.innerHTML = "";
+        let sub = 0; let itemsCount = 0; let summary = "";
+
+        for(let id in cart) {
+            itemsCount += cart[id].qty;
+            sub += cart[id].price * cart[id].qty;
+            summary += id + " (x" + cart[id].qty + "), ";
+            list.innerHTML += `<div class="cart-item">
+                <div><strong>${id}</strong><br><small>₹${cart[id].price}</small></div>
+                <div>
+                    <button class="qty-btn" onclick="changeQty('${id}',-1)">-</button>
+                    <span style="margin:0 10px">${cart[id].qty}</span>
+                    <button class="qty-btn" onclick="changeQty('${id}',1)">+</button>
+                </div>
+            </div>`;
+        }
+
+        if(document.getElementById('protein').checked) {
+            sub += (itemsCount * 25);
+            summary += " + Added Protein";
+        }
+
+        let del = (sub >= DEL_LIMIT || itemsCount === 0) ? 0 : DEL_CHARGE;
+        document.getElementById('subtotal').innerText = "₹" + sub;
+        document.getElementById('del-fee').innerText = "₹" + del;
+        document.getElementById('final-total').innerText = "₹" + (sub + del);
+        document.getElementById('count-badge').innerText = itemsCount;
+        document.getElementById('form-summary').value = summary;
+        document.getElementById('form-total').value = "₹" + (sub + del);
+        
+        const msg = document.getElementById('free-msg');
+        if(sub > 0 && sub < DEL_LIMIT) msg.innerText = "Add ₹" + (DEL_LIMIT - sub) + " more for FREE delivery!";
+        else msg.innerText = sub >= DEL_LIMIT ? "Congrats! Free Delivery applied." : "";
+    }
+</script>
 </body>
 </html>
